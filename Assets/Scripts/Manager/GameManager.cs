@@ -9,30 +9,38 @@ namespace Watermelon.Manager
     {
         public enum GameState { Ready, Playing, GameOver }
 
+        private const string BestScoreKey = "BestScore";
+
         public static GameManager Instance { get; private set; }
         public GameState State { get; private set; } = GameState.Ready;
         public int Score { get; private set; }
+        public int BestScore { get; private set; }
 
-        [Header("UI")]
+        [Header("HUD")]
         [SerializeField] private Text scoreText;
+        [SerializeField] private Text bestScoreText;
+
+        [Header("Game Over Panel")]
         [SerializeField] private GameObject gameOverPanel;
         [SerializeField] private Text gameOverScoreText;
+        [SerializeField] private Text gameOverBestText;
 
         private void Awake()
         {
             if (Instance != null) { Destroy(gameObject); return; }
             Instance = this;
+            BestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
         }
 
         private void OnEnable()
         {
-            Fruit.OnMerge      += HandleMerge;
+            Fruit.OnMerge           += HandleMerge;
             GameOverLine.OnGameOver += HandleGameOver;
         }
 
         private void OnDisable()
         {
-            Fruit.OnMerge      -= HandleMerge;
+            Fruit.OnMerge           -= HandleMerge;
             GameOverLine.OnGameOver -= HandleGameOver;
         }
 
@@ -45,18 +53,17 @@ namespace Watermelon.Manager
         {
             Score = 0;
             State = GameState.Playing;
-            RefreshScoreUI();
+            RefreshHUD();
 
             if (gameOverPanel != null) gameOverPanel.SetActive(false);
         }
 
         private void HandleMerge(FruitStageData resultStage)
         {
-            if (State != GameState.Playing) return;
-            if (resultStage == null) return;
+            if (State != GameState.Playing || resultStage == null) return;
 
             Score += resultStage.MergeScore;
-            RefreshScoreUI();
+            RefreshHUD();
         }
 
         private void HandleGameOver()
@@ -64,26 +71,31 @@ namespace Watermelon.Manager
             if (State == GameState.GameOver) return;
             State = GameState.GameOver;
 
+            if (Score > BestScore)
+            {
+                BestScore = Score;
+                PlayerPrefs.SetInt(BestScoreKey, BestScore);
+                PlayerPrefs.Save();
+            }
+
             var dropper = FindFirstObjectByType<Dropper>();
             if (dropper != null) dropper.enabled = false;
 
             ShowGameOverUI();
         }
 
-        private void RefreshScoreUI()
+        private void RefreshHUD()
         {
-            if (scoreText != null)
-                scoreText.text = Score.ToString("N0");
+            if (scoreText    != null) scoreText.text    = Score.ToString("N0");
+            if (bestScoreText != null) bestScoreText.text = BestScore.ToString("N0");
         }
 
         private void ShowGameOverUI()
         {
-            if (gameOverPanel != null)
-            {
-                gameOverPanel.SetActive(true);
-                if (gameOverScoreText != null)
-                    gameOverScoreText.text = $"Score: {Score:N0}";
-            }
+            if (gameOverPanel == null) return;
+            gameOverPanel.SetActive(true);
+            if (gameOverScoreText != null) gameOverScoreText.text = $"점수  {Score:N0}";
+            if (gameOverBestText  != null) gameOverBestText.text  = $"최고  {BestScore:N0}";
         }
     }
 }
