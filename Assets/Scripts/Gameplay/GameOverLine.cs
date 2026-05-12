@@ -81,28 +81,6 @@ namespace Watermelon.Gameplay
             _gameOver = true;
             _lingerTimers.Clear();
             OnGameOver?.Invoke();
-
-            // 임시 UI — Task 1.7 GameManager로 교체 예정
-            var canvas = new GameObject("GameOverCanvas").AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.gameObject.AddComponent<UnityEngine.UI.CanvasScaler>();
-            canvas.gameObject.AddComponent<UnityEngine.UI.GraphicRaycaster>();
-
-            var textGO = new GameObject("GameOverText");
-            textGO.transform.SetParent(canvas.transform, false);
-            var text       = textGO.AddComponent<UnityEngine.UI.Text>();
-            text.text      = "GAME OVER";
-            text.font      = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            text.fontSize  = 72;
-            text.color     = Color.red;
-            text.alignment = TextAnchor.MiddleCenter;
-            var rt         = textGO.GetComponent<RectTransform>();
-            rt.anchorMin   = Vector2.zero;
-            rt.anchorMax   = Vector2.one;
-            rt.offsetMin   = rt.offsetMax = Vector2.zero;
-
-            var dropper = FindFirstObjectByType<Dropper>();
-            if (dropper != null) dropper.enabled = false;
         }
 
         private void SetupLineRenderer()
