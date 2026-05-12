@@ -11,10 +11,19 @@ namespace Watermelon.Gameplay
         private static Sprite _sharedSprite;
 
         private void OnEnable() => ApplyVisual();
-        private void OnValidate() => ApplyVisual();
+
+        #if UNITY_EDITOR
+        private void OnValidate()
+        {
+            UnityEditor.EditorApplication.delayCall -= ApplyVisual;
+            UnityEditor.EditorApplication.delayCall += ApplyVisual;
+        }
+        #endif
 
         private void ApplyVisual()
         {
+            if (this == null) return;
+
             if (_sharedSprite == null)
             {
                 var tex = Texture2D.whiteTexture;
