@@ -33,7 +33,7 @@ namespace Watermelon.Gameplay
         private void Start()
         {
             if (previewRenderer != null && previewRenderer.sprite == null)
-                previewRenderer.sprite = CreateCircleSprite();
+                previewRenderer.sprite = PlaceholderSprite.Get();
 
             CurrentStage = PickRandom();
             NextStage = PickRandom();
@@ -118,9 +118,10 @@ namespace Watermelon.Gameplay
         {
             if (fruitPrefab != null)
             {
-                // Task 1.4 이후: Fruit 프리팹 스폰 + Kinematic → Dynamic
-                var fruit = Instantiate(fruitPrefab, transform.position, Quaternion.identity);
-                var rb = fruit.GetComponent<Rigidbody2D>();
+                var go = Instantiate(fruitPrefab, transform.position, Quaternion.identity);
+                var fruit = go.GetComponent<Fruit>();
+                if (fruit != null) fruit.Init(CurrentStage);
+                var rb = go.GetComponent<Rigidbody2D>();
                 if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
             }
             else
@@ -139,7 +140,7 @@ namespace Watermelon.Gameplay
             go.transform.localScale = Vector3.one * diameter;
 
             var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = CreateCircleSprite();
+            sr.sprite = PlaceholderSprite.Get();
             sr.color = StageColor(CurrentStage?.StageIndex ?? 1);
 
             var rb = go.AddComponent<Rigidbody2D>();
@@ -200,18 +201,5 @@ namespace Watermelon.Gameplay
             return palette[i];
         }
 
-        private static Sprite CreateCircleSprite()
-        {
-            const int res = 64;
-            var tex = new Texture2D(res, res, TextureFormat.RGBA32, false);
-            var center = new Vector2(res * 0.5f, res * 0.5f);
-            float radius = res * 0.5f - 1f;
-            for (int y = 0; y < res; y++)
-                for (int x = 0; x < res; x++)
-                    tex.SetPixel(x, y, Vector2.Distance(new Vector2(x, y), center) <= radius
-                        ? Color.white : Color.clear);
-            tex.Apply();
-            return Sprite.Create(tex, new Rect(0, 0, res, res), Vector2.one * 0.5f, res);
-        }
     }
 }
