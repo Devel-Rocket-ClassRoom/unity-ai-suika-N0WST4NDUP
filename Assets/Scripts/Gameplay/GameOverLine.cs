@@ -34,21 +34,20 @@ namespace Watermelon.Gameplay
 
             if (_gameOver) return;
 
-            var toRemove = new List<Fruit>();
-            foreach (var kv in _lingerTimers)
+            // 키 스냅샷으로 순회 — 루프 중 딕셔너리 수정 예외 방지
+            var keys = new List<Fruit>(_lingerTimers.Keys);
+            foreach (var fruit in keys)
             {
-                var fruit = kv.Key;
-                if (fruit == null) { toRemove.Add(fruit); continue; }
+                if (fruit == null) { _lingerTimers.Remove(fruit); continue; }
                 if (fruit.IsInGrace) continue;
 
-                _lingerTimers[fruit] = kv.Value + Time.deltaTime;
+                _lingerTimers[fruit] += Time.deltaTime;
                 if (_lingerTimers[fruit] >= lingerThreshold)
                 {
                     TriggerGameOver();
                     return;
                 }
             }
-            foreach (var f in toRemove) _lingerTimers.Remove(f);
         }
 
         private void UpdateWave()
