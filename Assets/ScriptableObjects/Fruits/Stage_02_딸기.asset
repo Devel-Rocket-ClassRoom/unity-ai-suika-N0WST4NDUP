@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 702823f8d2ce34246bd52766d33a7c33, type: 3}
+  m_Name: "Stage_02_\uB538\uAE30"
+  m_EditorClassIdentifier: Assembly-CSharp::Watermelon.Data.FruitStageData
+  stageIndex: 2
+  fruitName: "\uB538\uAE30"
+  diameter: 0.7
+  mergeScore: 3
+  canSpawn: 1
+  spawnWeight: 4
+  nextStage: {fileID: 11400000, guid: 0e025625aab14f04eb009e9d30c74d72, type: 2}
