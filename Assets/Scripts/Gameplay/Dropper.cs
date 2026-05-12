@@ -15,6 +15,10 @@ namespace Watermelon.Gameplay
         public FruitStageData CurrentStage { get; private set; }
         public FruitStageData NextStage { get; private set; }
 
+        private enum InputMode { Mouse, Keyboard }
+        private InputMode _inputMode = InputMode.Mouse;
+        private Vector2 _lastMousePosition;
+
         private bool _canDrop = true;
         private float _cooldownTimer;
         private Camera _mainCamera;
@@ -22,6 +26,8 @@ namespace Watermelon.Gameplay
         private void Awake()
         {
             _mainCamera = Camera.main;
+            if (Mouse.current != null)
+                _lastMousePosition = Mouse.current.position.ReadValue();
         }
 
         private void Start()
@@ -56,17 +62,29 @@ namespace Watermelon.Gameplay
 
         private void MoveWithInput()
         {
+            if (Keyboard.current != null &&
+                (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.rightArrowKey.isPressed))
+            {
+                _inputMode = InputMode.Keyboard;
+            }
+            else if (Mouse.current != null)
+            {
+                Vector2 mousePos = Mouse.current.position.ReadValue();
+                if (Vector2.Distance(mousePos, _lastMousePosition) > 1f)
+                    _inputMode = InputMode.Mouse;
+                _lastMousePosition = mousePos;
+            }
+
             float targetX = transform.position.x;
 
-            if (Mouse.current != null)
+            if (_inputMode == InputMode.Mouse && Mouse.current != null)
             {
                 Vector3 world = _mainCamera.ScreenToWorldPoint(
                     new Vector3(Mouse.current.position.x.ReadValue(),
                                 Mouse.current.position.y.ReadValue(), 0f));
                 targetX = world.x;
             }
-
-            if (Keyboard.current != null)
+            else if (_inputMode == InputMode.Keyboard && Keyboard.current != null)
             {
                 if (Keyboard.current.leftArrowKey.isPressed)
                     targetX -= 5f * Time.deltaTime;
