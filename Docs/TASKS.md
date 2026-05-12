@@ -10,7 +10,7 @@
 | Task ID | 제목                          | 미션      | 상태       | Issue # | PR # |
 | ------- | ----------------------------- | --------- | ---------- | ------- | ---- |
 | 0       | GDD 초안 작성                 | 준비      | ✅ 완료    | #1      | #2   |
-| 1.1     | 씬/카메라/벽 셋업             | 미션 1    | 🔄 진행 중 | #3      | -    |
+| 1.1     | 씬/카메라/벽 셋업             | 미션 1    | ⏸ 강사 승인 대기 | #3 | #4 |
 | 1.2     | 과일 단계 데이터 SO 정의      | 미션 1    | 📝 기록만  | -       | -    |
 | 1.3     | 드로퍼 입력 처리              | 미션 1    | 📝 기록만  | -       | -    |
 | 1.4     | 과일 프리팹 + 물리            | 미션 1    | 📝 기록만  | -       | -    |
@@ -49,12 +49,15 @@
 ### Task 1.1 씬/카메라/벽 셋업
 
 - **Branch**: `feature/scene-setup`
-- **Issue**: (시작 시 발급) — 라벨 `mission-1` `feature`
+- **Issue**: #3 — 라벨 `mission-1` `feature`
+- **PR**: #4
 - **완료 조건**
-  - [ ] `SampleScene` 또는 `Game` 씬에 카메라(Orthographic) 셋업
-  - [ ] 좌·우·하단 벽(BoxCollider2D) 배치, 안쪽 영역이 게임 보드
-  - [ ] 게임오버 라인 위치 표시(임시 라인 또는 Gizmo)
-- **자기 점검**: 빈 씬에 도형 하나 떨어뜨리면 바닥에서 멈추고 양 벽에 막히는가
+  - [x] `SampleScene` 씬에 카메라(Orthographic size=6) 셋업
+  - [x] 좌·우·하단 벽(BoxCollider2D) 배치, 내부 보드 폭 6 유닛
+  - [x] 게임오버 라인 위치 표시 (LineRenderer + GameOverLine.cs Gizmo)
+  - [x] WallVisual.cs — SpriteRenderer 자동 시각화 ([ExecuteAlways])
+- **자기 점검**: 2D Circle(Rigidbody2D + CircleCollider2D) 떨어뜨리면 바닥·벽에 막힘 확인
+- **보드 치수**: WallLeft/Right x=±3.15, WallBottom y=-5.85, GameOverLine y=3.8
 
 ### Task 1.2 과일 단계 데이터 SO 정의
 
