@@ -20,6 +20,12 @@ namespace Watermelon.Gameplay
         private GameObject _fruitPrefab;
         private bool _isMerging;
 
+        // 드롭 직후 게임오버 판정 제외 유예 시간
+        [SerializeField] private float graceDuration = 1f;
+        private float _graceTimer;
+
+        public bool IsInGrace => _graceTimer > 0f;
+
         private void Awake()
         {
             _rb  = GetComponent<Rigidbody2D>();
@@ -31,7 +37,13 @@ namespace Watermelon.Gameplay
         {
             stageData    = data;
             _fruitPrefab = fruitPrefab;
+            _graceTimer  = graceDuration;
             ApplyStageVisuals();
+        }
+
+        private void Update()
+        {
+            if (_graceTimer > 0f) _graceTimer -= Time.deltaTime;
         }
 
         public void SetSprite(Sprite sprite)
