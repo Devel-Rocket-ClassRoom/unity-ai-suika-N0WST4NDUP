@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5f0f8cc115d9da48927c95018fc70df, type: 3}
+  m_Name: FruitStageTable
+  m_EditorClassIdentifier: Assembly-CSharp::Watermelon.Data.FruitStageTable
+  stages:
+  - {fileID: 11400000, guid: 808e2dc4f78bd4545be03e0175331016, type: 2}
+  - {fileID: 11400000, guid: f1000297d24fcc444b8504d47b8550f2, type: 2}
+  - {fileID: 11400000, guid: 0e025625aab14f04eb009e9d30c74d72, type: 2}
+  - {fileID: 11400000, guid: 4ad7ea4060ccb6149bd9884b0fbcf482, type: 2}
+  - {fileID: 11400000, guid: 8d1d8162a118d90409dbced59e3e9f5f, type: 2}
+  - {fileID: 11400000, guid: 906bfd8560cf95b4786c611d5f923499, type: 2}
+  - {fileID: 11400000, guid: 8c024d0a4cae1ca4aa0169f6f7092022, type: 2}
+  - {fileID: 11400000, guid: f1e0999e32dade241ae3904791cfcc01, type: 2}
+  - {fileID: 11400000, guid: c50c5fa8b8cae5d469ad81e51d4bfa55, type: 2}
+  - {fileID: 11400000, guid: b6970f322814cc04986e8fe06f09a89c, type: 2}
+  - {fileID: 11400000, guid: 1fc178855f0405a4aac2236e26e8e10d, type: 2}
