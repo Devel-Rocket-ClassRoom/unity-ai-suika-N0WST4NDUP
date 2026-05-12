@@ -120,7 +120,7 @@ namespace Watermelon.Gameplay
             {
                 var go = Instantiate(fruitPrefab, transform.position, Quaternion.identity);
                 var fruit = go.GetComponent<Fruit>();
-                if (fruit != null) fruit.Init(CurrentStage);
+                if (fruit != null) fruit.Init(CurrentStage, fruitPrefab);
                 var rb = go.GetComponent<Rigidbody2D>();
                 if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
             }
